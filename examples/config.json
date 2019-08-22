@@ -1,0 +1,48 @@
+{
+    "atualizacao":"2015-05-29 09:00:17",
+    "tpAmb":2,
+    "pathXmlUrlFileMDFe":"mdfe_ws3.xml",
+    "pathMDFeFiles":"C:\/wamp64\/www\/agilcontabil\/modulos\/fiscalMdfe\/xml\/",
+    "pathCertsFiles":"C:\/wamp64\/www\/agilcontabil\/modulos\/fiscalMdfe\/certs\/",
+    "siteUrl":"http:\/\/localhost",
+    "schemasMDFe":"PL_MDFe_300a",
+    "razaosocial":"ILHA COMERCIO E TRANSPORTES LTDA",
+    "siglaUF":"SP",
+    "cnpj":"01889578000103",
+    "certPfxName":"certificado.pfx",
+    "certPassword":"DEUSEAMOR",
+    "certPhrase":"",
+    "aDocFormat":{
+        "format":"P",
+        "paper":"A4",
+        "southpaw":"1",
+        "pathLogoFile":"",
+        "logoPosition":"L",
+        "font":"Times",
+        "printer":"hpteste"
+    },
+    "aMailConf":{
+        "mailAuth":"1",
+        "mailFrom":"seu@email.com.br",
+        "mailSmtp":"smtp.email.com.br",
+        "mailUser":"seu@email.com.br",
+        "mailPass":"senha",
+        "mailProtocol":"ssl",
+        "mailPort":"587",
+        "mailFromMail":null,
+        "mailFromName":null,
+        "mailReplayToMail":null,
+        "mailReplayToName":null,
+        "mailImapHost":null,
+        "mailImapPort":null,
+        "mailImapSecurity":null,
+        "mailImapNocerts":null,
+        "mailImapBox":null
+    },
+    "aProxyConf":{
+        "proxyIp":"",
+        "proxyPort":"",
+        "proxyUser":"",
+        "proxyPass":""
+    }
+}
