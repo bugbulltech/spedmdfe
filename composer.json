@@ -1,5 +1,5 @@
 {
-    "name": "bugbulltech/spedmdfe",
+    "name": "billbarsch/spedmdfe",
     "type": "library",
     "description": "API para geração e comunicação da MDFe com as SEFAZ autorizadoras.",
     "keywords": ["mdfe", "sped", "nfephp"],
