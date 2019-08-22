@@ -52,6 +52,10 @@ class Make extends BaseMake
   * @var DOMElement
   */
   private $infMDFe;
+  /**
+  * @var DOMElement
+  */
+  private $infMDFeSupl;
 
   /**
   * @var DOMElement
@@ -105,6 +109,10 @@ class Make extends BaseMake
   * @var DOMElement
   */
   private $veicTracao;
+  /**
+  * @var DOMElement
+  */
+  private $adhIniViagem;
   /**
   * @var DOMElement
   */
@@ -177,6 +185,9 @@ class Make extends BaseMake
     }
     //[1] tag infMDFe (1 A01)
     $this->dom->appChild($this->MDFe, $this->infMDFe, 'Falta tag "MDFe"');
+
+    $this->zTagInfMDFeSupl();
+   
     //[0] tag MDFe
     $this->dom->appChild($this->dom, $this->MDFe, 'Falta DOMDocument');
     // testa da chave
@@ -368,14 +379,8 @@ class Make extends BaseMake
       $identificador . "Sigla da UF do Descarregamento"
     );
 
+    $this->adhIniViagem = $dhIniViagem;
 
-    $this->dom->addChild(
-      $ide,
-      "dhIniViagem",
-      $dhIniViagem,
-      false,
-      $identificador . "Data e hora previstos de inicio da viagem"
-    );
     $this->mod = $mod;
     $this->ide = $ide;
     return $this->ide;
@@ -1607,7 +1612,7 @@ protected function zTagVeiculo(
     false,
     "Capacidade em M3"
   );
-  if (sizeof($propDados) > 0) {
+  if (is_array($propDados) && sizeof($propDados) > 0) {
     $prop = $this->dom->createElement("prop");
 
     $this->dom->addChild(
@@ -1714,8 +1719,16 @@ protected function zTagMDFe()
 */
 protected function zTagIde()
 {
+  $identificador = '[4] <ide> - ';
   $this->dom->addArrayChild($this->ide, $this->aInfMunCarrega);
   $this->dom->addArrayChild($this->ide, $this->aInfPercurso);
+  $this->dom->addChild($this->ide,
+    "dhIniViagem",
+    $this->adhIniViagem,
+    false,
+    $identificador . "Data e hora previstos de inicio da viagem"
+  );
+
 }
 
 /**
@@ -1822,6 +1835,26 @@ protected function zTagAqua()
 }
 
 /**
+* Adiciona tag de qrcode da mdfe
+*/
+protected function zTagInfMDFeSupl()
+{
+  //tag de qrcode da mdfe
+  $qrCodMDFe = "https://dfe-portal.svrs.rs.gov.br/mdfe/qrCode?chMDFe=".$this->chMDFe."&tpAmb=".$this->tpAmb."";
+  $this->infMDFeSupl = $this->dom->createElement("infMDFeSupl");
+  $this->dom->addChild(
+    $this->infMDFeSupl,
+    "qrCodMDFe",
+    $qrCodMDFe,
+    false,
+    $identificador . "QrCode da MDFe"
+  );
+
+  $this->dom->appChild($this->MDFe, $this->infMDFeSupl, 'Falta tag "MDFe"');  
+
+}
+
+/**
 * zTestaChaveXML
 * Remonta a chave da NFe de 44 digitos com base em seus dados
 * Isso é útil no caso da chave informada estar errada
@@ -1843,11 +1876,11 @@ private function zTestaChaveXML($dom)
   $tpEmis = $ide->getElementsByTagName('tpEmis')->item(0)->nodeValue;
   $cNF = $ide->getElementsByTagName('cMDF')->item(0)->nodeValue;
   $chave = str_replace('MDFe', '', $infMDFe->getAttribute("Id"));
-  $tempData = explode("-", $dhEmi);
+  $dt = new \DateTime($dhEmi);
   $chaveMontada = $this->montaChave(
     $cUF,
-    $tempData[0] - 2000,
-    $tempData[1],
+    $dt->format('y'),
+    $dt->format('m'),
     $cnpj,
     $mod,
     $serie,
